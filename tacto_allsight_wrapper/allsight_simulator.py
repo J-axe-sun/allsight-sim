@@ -7,6 +7,7 @@ import sys
 import logging
 import time
 import pybullet as pyb
+from os.path import dirname, realpath, relpath
 
 import cv2
 import pybulletX as px
@@ -113,7 +114,8 @@ class Simulator:
 
         pyb.connect(pyb.DIRECT)
         pyb.setGravity(0, 0, 0)  # Major Tom to planet Earth
-
+        cfg.allsight["urdf_path"] = dirname(dirname(realpath(__file__))) + cfg.allsight["urdf_path"]
+        print("!!!!!!!!!!!!!!!!!!!!!!!!!!", cfg.allsight)
         self.body = px.Body(**cfg.allsight)
 
         # object body 

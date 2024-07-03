@@ -21,6 +21,7 @@ Default is pyglet, which requires active window
 # import os
 # os.environ["PYOPENGL_PLATFORM"] = "egl"
 
+
 import logging
 import copy
 import os
@@ -31,6 +32,7 @@ import pyrender
 import trimesh
 from omegaconf import OmegaConf
 from scipy.spatial.transform import Rotation as R
+from os.path import dirname, realpath, relpath
 
 logger = logging.getLogger(__name__)
 
@@ -70,10 +72,12 @@ class Renderer:
         :param background: image
         :param config_path:
         """
-
+    
         if headless:
             os.environ["PYOPENGL_PLATFORM"] = "egl"
             
+        # os.environ["PYOPENGL_PLATFORM"] = ""
+           
         self._width = width
         self._height = height
 
@@ -192,6 +196,9 @@ class Renderer:
         W, H = g.width, g.height
 
         if hasattr(g, "mesh") and g.mesh is not None:
+            
+            g.mesh = dirname(dirname(realpath(__file__))) +  g.mesh
+            print(g.mesh)
             gel_trimesh = trimesh.load(g.mesh)
 
             # scale up for clearer indentation
